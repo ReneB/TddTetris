@@ -23,5 +23,8 @@ namespace TddTetris
 
         void SetBlock(IBlock block, Vector2 position);
         void FixBlock();
+
+        void RotateBlockRight();
+        void RotateBlockLeft();
     }
 }

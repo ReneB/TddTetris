@@ -31,6 +31,16 @@ namespace TddTetris
                 MoveRightIfPossible();
             }
 
+            if (input.IndexOf(Keys.PageDown) > -1)
+            {
+                field.RotateBlockRight();
+            }
+
+            if (input.IndexOf(Keys.PageUp) > -1)
+            {
+                field.RotateBlockLeft();
+            }
+
             if (input.IndexOf(Keys.Space) > -1)
             {
                 field.FixBlock();
