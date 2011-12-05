@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="BlockFactoryStub.cs" />
     <Compile Include="BlockStub.cs" />
+    <Compile Include="BlockTests.cs" />
     <Compile Include="RotationCalculatorStub.cs" />
     <Compile Include="RotationMathTest.cs" />
   </ItemGroup>
