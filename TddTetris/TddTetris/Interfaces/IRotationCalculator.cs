@@ -8,6 +8,6 @@ namespace TddTetris
 {
     public interface IRotationCalculator
     {
-        Vector2 RotatePositionInCells(int degrees, Vector2 position);
+        Vector2 RotateCell(int degrees, Vector2 position);
     }
 }

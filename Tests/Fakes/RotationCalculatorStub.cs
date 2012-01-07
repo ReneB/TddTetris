@@ -11,7 +11,7 @@ namespace TddTetris {
         {
             public Vector2 PositionToReturn;
 
-            public Vector2 RotatePositionInCells(int degrees, Vector2 position)
+            public Vector2 RotateCell(int degrees, Vector2 position)
             {
                 if (PositionToReturn != null)
                     return PositionToReturn;

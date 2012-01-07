@@ -19,7 +19,7 @@ namespace TddTetris {
                 int NumDegrees = 0;
 
                 // act
-                Vector2 RotatedPos = (new RotationCalculator()).RotatePositionInCells(NumDegrees, Pos);
+                Vector2 RotatedPos = (new RotationCalculator()).RotateCell(NumDegrees, Pos);
 
                 // assert
                 Assert.AreEqual(Pos, RotatedPos);                
@@ -34,7 +34,7 @@ namespace TddTetris {
                 Vector2 ExpectedRotatedPos = new Vector2(-1, 0);
 
                 // act
-                Vector2 RotatedPos = (new RotationCalculator()).RotatePositionInCells(NumDegrees, Pos);
+                Vector2 RotatedPos = (new RotationCalculator()).RotateCell(NumDegrees, Pos);
 
                 // assert
                 Assert.AreEqual(ExpectedRotatedPos, RotatedPos);

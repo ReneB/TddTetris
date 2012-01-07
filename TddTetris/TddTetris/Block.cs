@@ -55,7 +55,7 @@ namespace TddTetris
 
             int degreesRotated = RotationSteps * 360 / numRotationStepsInFullCircle;
 
-            Vector2 originalPosition = Rotator.RotatePositionInCells(360 - degreesRotated, position - OriginPosition());
+            Vector2 originalPosition = Rotator.RotateCell(360 - degreesRotated, position - OriginPosition());
 
             if (Shape[(int)originalPosition.Y][(int)originalPosition.X])
                 return ShapeColor;
