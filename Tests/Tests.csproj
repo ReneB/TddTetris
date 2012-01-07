@@ -55,11 +55,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockFactoryStub.cs" />
-    <Compile Include="BlockStub.cs" />
+    <Compile Include="Fakes\BlockFactoryStub.cs" />
+    <Compile Include="Fakes\BlockStub.cs" />
     <Compile Include="BlockTests.cs" />
     <Compile Include="FieldTests.cs" />
-    <Compile Include="RotationCalculatorStub.cs" />
+    <Compile Include="Fakes\RotationCalculatorStub.cs" />
     <Compile Include="RotationMathTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
