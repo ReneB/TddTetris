@@ -10,6 +10,8 @@ namespace TddTetris
     {
         int Width { get; }
 
+        IBlock CurrentBlock { get; }
+
         bool CanMoveLeft();
         void MoveBlockLeft();
 

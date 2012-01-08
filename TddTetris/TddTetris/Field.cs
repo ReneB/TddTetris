@@ -13,7 +13,7 @@ namespace TddTetris
 
         public Color?[,] Grid;
 
-        public IBlock Block { get; private set; }
+        public IBlock CurrentBlock { get; private set; }
         public Vector2 Position { get; private set; }
 
         public Field(int width, int height)
@@ -39,16 +39,16 @@ namespace TddTetris
                 return c;
             }
 
-            if (Block != null)
+            if (CurrentBlock != null)
             {
-                return Block.ColorAt(position - this.Position);
+                return CurrentBlock.ColorAt(position - this.Position);
             }
             return null;
         }
 
         public void SetBlock(IBlock block, Vector2 position)
         {
-            this.Block = block;
+            this.CurrentBlock = block;
             this.Position = position;
         }
 
@@ -79,20 +79,20 @@ namespace TddTetris
 
         public bool CanAdvance()
         {
-            return Block != null && Position.Y + Block.CurrentHeight < Height;
+            return CurrentBlock != null && Position.Y + CurrentBlock.CurrentHeight < Height;
         }
 
         public void FixBlock()
         {
-            if (Block == null)
+            if (CurrentBlock == null)
                 return;
             
-            int height = Block.CurrentHeight;
-            int width = Block.CurrentWidth;
+            int height = CurrentBlock.CurrentHeight;
+            int width = CurrentBlock.CurrentWidth;
 
             for (int Y = 0; Y < height; Y++) {
                 for (int X = 0; X < width; X++) {
-                    Color? c = Block.ColorAt(new Vector2(X,Y));
+                    Color? c = CurrentBlock.ColorAt(new Vector2(X,Y));
                     if (c != null) {
                         Grid[(int) Position.X + X, (int) Position.Y + Y] = c;
                     }
@@ -103,13 +103,13 @@ namespace TddTetris
         public void RotateBlockRight()
         {
             // Todo: test this with mocks
-            Block.RotateRight();
+            CurrentBlock.RotateRight();
         }
 
         public void RotateBlockLeft()
         {
             // Todo: test this with mocks
-            Block.RotateLeft();
+            CurrentBlock.RotateLeft();
         }            
     }
 }
