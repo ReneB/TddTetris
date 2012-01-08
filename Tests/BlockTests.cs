@@ -78,8 +78,6 @@ namespace TddTetris {
             {
                 //arrange
                 b = new Block(shape, Color.White);
-                b.CurrentHeight = 1;
-                b.CurrentWidth = 4;
 
                 //act
                 b.RotateRight();
@@ -88,8 +86,8 @@ namespace TddTetris {
                 /* If my .Net-fu were a little more awesome, I would have 
                    created a mock with an expectation of SwapHeightAndWidth() 
                    being called */
-                Assert.AreEqual(4, b.CurrentHeight);
-                Assert.AreEqual(1, b.CurrentWidth);
+                Assert.AreEqual(3, b.CurrentHeight);
+                Assert.AreEqual(2, b.CurrentWidth);
             }
 
             [Test]
@@ -97,8 +95,6 @@ namespace TddTetris {
             {
                 //arrange
                 b = new Block(shape, Color.White);
-                b.CurrentHeight = 1;
-                b.CurrentWidth = 4;
 
                 //act
                 b.RotateLeft();
@@ -107,8 +103,8 @@ namespace TddTetris {
                 /* If my .Net / Moq-fu were a little more awesome, I would have 
                    created a mock with an expectation of SwapHeightAndWidth() 
                    being called */
-                Assert.AreEqual(4, b.CurrentHeight);
-                Assert.AreEqual(1, b.CurrentWidth);
+                Assert.AreEqual(3, b.CurrentHeight);
+                Assert.AreEqual(2, b.CurrentWidth);
             }
 
             [Test]
