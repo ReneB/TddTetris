@@ -8,6 +8,7 @@ namespace TddTetris
 {
     public interface IField
     {
+        int Height { get; }
         int Width { get; }
 
         IBlock CurrentBlock { get; }
