@@ -131,6 +131,35 @@ namespace TddTetris
                 // assert
                 Assert.IsFalse(canMoveRight);
             }
+
+            [Test]
+            public void CanAdvance_NotAtBottom_ReturnsTrue()
+            {
+                // arrange
+                f.SetBlock(bs, new Vector2(5, 5));
+
+                // act
+                bool canAdvance = f.CanAdvance();
+
+                // assert
+                Assert.IsTrue(canAdvance);
+            }
+
+            [Test]
+            public void CanAdvance_AtBottom_ReturnsFalse()
+            {
+                // arrange
+                Vector2 bottomPosition = new Vector2(5, f.Height - bs.CurrentHeight);
+                // This is 6, but that would be a magic number. This code involves 
+                // some logic (boo hiss), but has better readability
+                f.SetBlock(bs, bottomPosition);
+
+                // act
+                bool canAdvance = f.CanAdvance();
+
+                // assert
+                Assert.IsFalse(canAdvance);
+            }
         }
     }
 }
