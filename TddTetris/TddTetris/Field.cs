@@ -69,7 +69,7 @@ namespace TddTetris
 
         public bool CanMoveRight()
         {
-            return Position.X < Width - 1;
+            return Position.X < Width - CurrentBlock.CurrentWidth;
         }
 
         public void MoveBlockRight()

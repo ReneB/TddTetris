@@ -76,6 +76,61 @@ namespace TddTetris
                 // assert
                 Assert.AreEqual(Color.Blue, c);
             }
+
+            [Test]
+            public void CanMoveLeft_WhenBlockTouchesLeftWall_ReturnsFalse()
+            {
+                // arrange
+                f.SetBlock(bs, new Vector2(0,8));
+
+                // act
+                bool canMoveLeft = f.CanMoveLeft();
+
+                // assert
+                Assert.IsFalse(canMoveLeft);
+            }
+
+            [Test]
+            public void CanMoveLeft_WhenBlockDoesNotTouchLeftWall_ReturnsTrue()
+            {
+                // arrange
+                f.SetBlock(bs, new Vector2(4, 8));
+
+                // act
+                bool canMoveLeft = f.CanMoveLeft();
+
+                // assert
+                Assert.IsTrue(canMoveLeft);
+            }
+
+            [Test]
+            public void CanMoveRight_WhenBlockDoesNotTouchRightWall_ReturnsTrue()
+            {
+                // arrange
+                f.SetBlock(bs, new Vector2(0, 8));
+
+                // act
+                bool canMoveRight = f.CanMoveRight();
+
+                // assert
+                Assert.IsTrue(canMoveRight);
+            }
+
+            [Test]
+            public void CanMoveRight_WhenBlockTouchesRightWall_ReturnsFalse()
+            {
+                // arrange
+                int LocationX = f.Width - bs.CurrentWidth;
+                // which, incidentally, is 6. Too much logic, 
+                // but just '6' would be less readable.
+                f.SetBlock(bs, new Vector2(LocationX, 8));
+
+                // act
+                bool canMoveRight = f.CanMoveRight();
+
+                // assert
+                Assert.IsFalse(canMoveRight);
+            }
         }
     }
 }
