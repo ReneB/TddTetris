@@ -114,12 +114,16 @@ namespace TddTetris
         {
             // Todo: test this with mocks
             CurrentBlock.RotateRight();
+            if (!Tester.CanPlaceCurrentBlockAt(Position))
+                CurrentBlock.RotateLeft();
         }
 
         public void RotateBlockLeft()
         {
             // Todo: test this with mocks
             CurrentBlock.RotateLeft();
+            if (!Tester.CanPlaceCurrentBlockAt(Position))
+                CurrentBlock.RotateRight();
         }            
     }
 }

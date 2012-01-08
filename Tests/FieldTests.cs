@@ -220,6 +220,66 @@ namespace TddTetris
                 // assert
                 Assert.IsTrue(canAdvance);
             }
+
+            [Test]
+            public void RotateBlockRight_CallsRotateRightOnCurrentBlock()
+            {
+                // arrange
+                Mock<IBlock> blockMock = new Mock<IBlock>();
+                f.SetBlock(blockMock.Object, new Vector2(4, 4));
+
+                // act
+                f.RotateBlockRight();
+
+                blockMock.Verify(b => b.RotateRight(), Times.Once());
+            }
+
+            [Test]
+            public void RotateBlockRight_RotationNotPossible_CallsRotateLeftOnCurrentBlock()
+            {
+                // arrange
+                Mock<IBlock> blockMock = new Mock<IBlock>();
+                f.SetBlock(blockMock.Object, new Vector2(4, 4));
+                Mock<IBlockLocationTester> testerMock = new Mock<IBlockLocationTester>();
+                f.Tester = testerMock.Object;
+                testerMock.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(false);
+
+                // act
+                f.RotateBlockRight();
+
+                blockMock.Verify(b => b.RotateRight(), Times.Once());
+                blockMock.Verify(b => b.RotateLeft(), Times.Once());
+            }
+
+            [Test]
+            public void RotateBlockLeft_CallsRotateLeftOnCurrentBlock()
+            {
+                // arrange
+                Mock<IBlock> blockMock = new Mock<IBlock>();
+                f.SetBlock(blockMock.Object, new Vector2(4, 4));
+
+                // act
+                f.RotateBlockLeft();
+
+                blockMock.Verify(b => b.RotateLeft(), Times.Once());
+            }
+
+            [Test]
+            public void RotateBlockLeft_RotationNotPossible_CallsRotateRightOnCurrentBlock()
+            {
+                // arrange
+                Mock<IBlock> blockMock = new Mock<IBlock>();
+                f.SetBlock(blockMock.Object, new Vector2(4, 4));
+                Mock<IBlockLocationTester> testerMock = new Mock<IBlockLocationTester>();
+                f.Tester = testerMock.Object;
+                testerMock.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(false);
+
+                // act
+                f.RotateBlockLeft();
+
+                blockMock.Verify(b => b.RotateLeft(), Times.Once());
+                blockMock.Verify(b => b.RotateRight(), Times.Once());
+            }
         }
     }
 }
