@@ -22,7 +22,7 @@ namespace TddTetris
         bool CanAdvance();
         void AdvanceBlock();
 
-        Color? ColorAt(Vector2 position);
+        Color? ColorAt(Vector2 position, bool ignoreCurrentBlock = false);
 
         void SetBlock(IBlock block, Vector2 position);
         void FixBlock();

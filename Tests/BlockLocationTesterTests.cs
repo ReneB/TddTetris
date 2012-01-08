@@ -88,6 +88,19 @@ namespace TddTetris {
 
                 Assert.IsFalse(result);
             }
+
+            [Test]
+            public void CanPlaceCurrentBlockAt_WithinFieldOverlappingExistingBlock_ReturnsFalse()
+            {
+                // arrange
+                f.Grid[1,1] = Color.White;
+
+                // act
+                bool result = tester.CanPlaceCurrentBlockAt(new Vector2(0, 0));
+
+                // assert
+                Assert.IsFalse(result);
+            }
         }
     }
 }

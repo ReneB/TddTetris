@@ -27,7 +27,7 @@ namespace TddTetris
             Tester = new BlockLocationTester(this);
         }
 
-        public Color? ColorAt(Vector2 position)
+        public Color? ColorAt(Vector2 position, bool ignoreCurrentBlock = false)
         {
             float x = position.X;
             float y = position.Y;
@@ -43,7 +43,7 @@ namespace TddTetris
                 return c;
             }
 
-            if (CurrentBlock != null)
+            if (!ignoreCurrentBlock && CurrentBlock != null)
             {
                 return CurrentBlock.ColorAt(position - this.Position);
             }
