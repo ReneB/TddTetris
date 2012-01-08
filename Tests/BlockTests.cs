@@ -7,19 +7,21 @@ namespace TddTetris {
         [TestFixture]
         class BlockTests {
             Block b;
-            BlockFactoryStub blockFactory;
+            bool[][] shape;
 
             [SetUp]
             public void SetUp()
             {
-                blockFactory = new BlockFactoryStub();
-                blockFactory.makeRealObjects = true;
-                b = (Block) blockFactory.MakeBlock();
+                shape = new bool[][] {
+                  new bool[] {false, true, true},
+                  new bool[] {true, true, false}
+                };
             }
 
             [Test]
             public void RotateLeft_incrementsRotationSteps() {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.RotationSteps = 0;
 
                 //act
@@ -33,6 +35,7 @@ namespace TddTetris {
             public void RotateLeft_clampsRotationSteps()
             {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.RotationSteps = 3;
 
                 //act
@@ -46,6 +49,7 @@ namespace TddTetris {
             public void RotateRight_decrementsRotationSteps()
             {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.RotationSteps = 3;
 
                 //act
@@ -59,6 +63,7 @@ namespace TddTetris {
             public void RotateRight_clampsRotationSteps()
             {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.RotationSteps = 0;
 
                 //act
@@ -72,6 +77,7 @@ namespace TddTetris {
             public void RotateRight_swapsHeightAndWidth()
             {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.CurrentHeight = 1;
                 b.CurrentWidth = 4;
 
@@ -90,6 +96,7 @@ namespace TddTetris {
             public void RotateLeft_swapsHeightAndWidth()
             {
                 //arrange
+                b = new Block(shape, Color.White);
                 b.CurrentHeight = 1;
                 b.CurrentWidth = 4;
 
@@ -107,28 +114,32 @@ namespace TddTetris {
             [Test]
             public void Constructor_SetsCurrentHeight()
             {
-                blockFactory.NextBlockShape = 1;
-                b = (Block) blockFactory.MakeBlock();
+                b = new Block(shape, Color.White);
+                // [xx ] b looks like this
+                // [ xx]
                 Assert.AreEqual(b.CurrentHeight, 2);
             }
 
             [Test]
             public void Constructor_SetsCurrentWidth()
             {
-                blockFactory.NextBlockShape = 1;
-                b = (Block) blockFactory.MakeBlock();
+                b = new Block(shape, Color.White);
+                // [xx ]  b looks like this
+                // [ xx]
                 Assert.AreEqual(b.CurrentWidth, 3);
             }
 
             [Test]
-            public void ColorAt_UnrotatedAndTrueInShapeLocation_ReturnsWhite()
+            public void ColorAt_UnrotatedAndTrueInShapeLocation_ReturnsShapeColor()
             {
-                // arrange
-                blockFactory.NextBlockShape = 1;
-                b = (Block) blockFactory.MakeBlock();
-                RotationCalculatorStub rotator = new RotationCalculatorStub();
-                rotator.PositionToReturn = new Vector2(1, 1);
-                b.Rotator = rotator;
+                //arrange
+                b = new Block(shape, Color.White);
+                // [xx ]  b looks like this
+                // [ xx]
+
+                //RotationCalculatorStub rotator = new RotationCalculatorStub();
+                //rotator.PositionToReturn = new Vector2(1, 1);
+                //b.Rotator = rotator;
 
                 // act
                 Color? colorAtIndex = b.ColorAt(new Vector2(1,1));
@@ -141,8 +152,7 @@ namespace TddTetris {
             public void ColorAt_UnrotatedAndFalseInShapeLocation_ReturnsNull()
             {
                 // arrange
-                blockFactory.NextBlockShape = 1;
-                b = (Block) blockFactory.MakeBlock();
+                b = new Block(shape, Color.White);
 
                 // act
                 Color? colorAtIndex = b.ColorAt(new Vector2(0, 0));
@@ -155,11 +165,9 @@ namespace TddTetris {
             public void ColorAt_Rotated_MapsToOriginalCoordinates()
             {
                 // arrange
-                // **
-                //  **
-                blockFactory.NextBlockShape = 1;
-                b = (Block) blockFactory.MakeBlock();
-
+                // [xx ]  b looks like this
+                // [ xx]
+                b = new Block(shape, Color.White);
                 Vector2 testPosition = new Vector2(1, 0);
 
                 // act
@@ -173,6 +181,9 @@ namespace TddTetris {
             [Test]
             public void ColorAt_OutsideBlock_ReturnsNull()
             {
+                // arrange
+                b = new Block(shape, Color.White);
+
                 // act
                 Color? response = b.ColorAt(new Vector2(4, 4));
 
@@ -183,6 +194,9 @@ namespace TddTetris {
             [Test]
             public void ColorAt_OutsideBlockWithNegativeValues_ReturnsNull()
             {
+                // arrange
+                b = new Block(shape, Color.White);
+
                 // act
                 Color? response = b.ColorAt(new Vector2(-1, 0));
 
