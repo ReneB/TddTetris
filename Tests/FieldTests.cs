@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
+using Moq;
 
 namespace TddTetris
 {
@@ -77,53 +78,47 @@ namespace TddTetris
                 Assert.AreEqual(Color.Blue, c);
             }
 
+            // this test is no longer strictly necessary, but I'll keep it around
+            // for reference on how to use Moq
             [Test]
-            public void CanMoveLeft_WhenBlockTouchesLeftWall_ReturnsFalse()
+            public void CanMoveLeft_ShouldDelegateToLocationTester()
             {
                 // arrange
-                f.SetBlock(bs, new Vector2(0,8));
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                f.Tester = mockTester.Object;
+                f.SetBlock(bs, new Vector2(0, 0));
 
                 // act
-                bool canMoveLeft = f.CanMoveLeft();
+                f.CanMoveLeft();
 
                 // assert
-                Assert.IsFalse(canMoveLeft);
+                mockTester.Verify(t => t.CanPlaceCurrentBlockAt(new Vector2(-1,0)));
+            }
+
+            // this test is no longer strictly necessary, but I'll keep it around
+            // for reference on how to use Moq
+            [Test]
+            public void CanMoveRight_ShouldDelegateToLocationTester()
+            {
+                // arrange
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                f.Tester = mockTester.Object;
+                f.SetBlock(bs, new Vector2(0, 0));
+
+                // act
+                f.CanMoveRight();
+
+                // assert
+                mockTester.Verify(t => t.CanPlaceCurrentBlockAt(new Vector2(1, 0)));
             }
 
             [Test]
-            public void CanMoveLeft_WhenBlockDoesNotTouchLeftWall_ReturnsTrue()
+            public void CanMoveRight_LocationTesterReturnsFalse_ReturnsFalse()
             {
                 // arrange
-                f.SetBlock(bs, new Vector2(4, 8));
-
-                // act
-                bool canMoveLeft = f.CanMoveLeft();
-
-                // assert
-                Assert.IsTrue(canMoveLeft);
-            }
-
-            [Test]
-            public void CanMoveRight_WhenBlockDoesNotTouchRightWall_ReturnsTrue()
-            {
-                // arrange
-                f.SetBlock(bs, new Vector2(0, 8));
-
-                // act
-                bool canMoveRight = f.CanMoveRight();
-
-                // assert
-                Assert.IsTrue(canMoveRight);
-            }
-
-            [Test]
-            public void CanMoveRight_WhenBlockTouchesRightWall_ReturnsFalse()
-            {
-                // arrange
-                int LocationX = f.Width - bs.CurrentWidth;
-                // which, incidentally, is 6. Too much logic, 
-                // but just '6' would be less readable.
-                f.SetBlock(bs, new Vector2(LocationX, 8));
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(false);
+                f.Tester = mockTester.Object;
 
                 // act
                 bool canMoveRight = f.CanMoveRight();
@@ -133,32 +128,97 @@ namespace TddTetris
             }
 
             [Test]
-            public void CanAdvance_NotAtBottom_ReturnsTrue()
+            public void CanMoveRight_LocationTesterReturnsTrue_ReturnsTrue()
             {
                 // arrange
-                f.SetBlock(bs, new Vector2(5, 5));
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(true);
+                f.Tester = mockTester.Object;
 
                 // act
-                bool canAdvance = f.CanAdvance();
+                bool canMoveRight = f.CanMoveRight();
 
                 // assert
-                Assert.IsTrue(canAdvance);
+                Assert.IsTrue(canMoveRight);
             }
 
             [Test]
-            public void CanAdvance_AtBottom_ReturnsFalse()
+            public void CanMoveLeft_LocationTesterReturnsFalse_ReturnsFalse()
             {
                 // arrange
-                Vector2 bottomPosition = new Vector2(5, f.Height - bs.CurrentHeight);
-                // This is 6, but that would be a magic number. This code involves 
-                // some logic (boo hiss), but has better readability
-                f.SetBlock(bs, bottomPosition);
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(false);
+                f.Tester = mockTester.Object;
+
+                // act
+                bool canMoveLeft = f.CanMoveLeft();
+
+                // assert
+                Assert.IsFalse(canMoveLeft);
+            }
+
+            [Test]
+            public void CanMoveLeft_LocationTesterReturnsFalse_ReturnsTrue()
+            {
+                // arrange
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(true);
+                f.Tester = mockTester.Object;
+
+                // act
+                bool canMoveLeft = f.CanMoveLeft();
+
+                // assert
+                Assert.IsTrue(canMoveLeft);
+            }
+
+            // this test is no longer strictly necessary, but I'll keep it around
+            // for reference on how to use Moq
+            [Test]
+            public void CanAdvance_ShouldDelegateToLocationTester()
+            {
+                // arrange
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                f.Tester = mockTester.Object;
+                f.SetBlock(bs, new Vector2(0, 0));
+
+                // act
+                f.CanAdvance();
+
+                // assert
+                mockTester.Verify(t => t.CanPlaceCurrentBlockAt(new Vector2(0, 1)));
+            }
+
+            [Test]
+            public void CanAdvance_LocationTesterReturnsFalse_ReturnsFalse()
+            {
+                // arrange
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(false);
+                f.Tester = mockTester.Object;
+                f.SetBlock(bs, new Vector2(0, 0));
 
                 // act
                 bool canAdvance = f.CanAdvance();
 
                 // assert
                 Assert.IsFalse(canAdvance);
+            }
+
+            [Test]
+            public void CanAdvance_LocationTesterReturnsTrue_ReturnsTrue()
+            {
+                // arrange
+                Mock<IBlockLocationTester> mockTester = new Mock<IBlockLocationTester>();
+                mockTester.Setup(t => t.CanPlaceCurrentBlockAt(It.IsAny<Vector2>())).Returns(true);
+                f.Tester = mockTester.Object;
+                f.SetBlock(bs, new Vector2(0, 0));
+
+                // act
+                bool canAdvance = f.CanAdvance();
+
+                // assert
+                Assert.IsTrue(canAdvance);
             }
         }
     }

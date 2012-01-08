@@ -16,11 +16,15 @@ namespace TddTetris
         public IBlock CurrentBlock { get; private set; }
         public Vector2 Position { get; private set; }
 
+        public IBlockLocationTester Tester;
+
         public Field(int width, int height)
         {
             this.Width = width;
             this.Height = height;
             this.Grid = new Color?[width, height];
+
+            Tester = new BlockLocationTester(this);
         }
 
         public Color? ColorAt(Vector2 position)
@@ -59,7 +63,8 @@ namespace TddTetris
 
         public bool CanMoveLeft()
         {
-            return Position.X > 0;
+            Vector2 newPosition = new Vector2(Position.X - 1, Position.Y);
+            return Tester.CanPlaceCurrentBlockAt(newPosition);
         }
 
         public void MoveBlockLeft()
@@ -69,7 +74,8 @@ namespace TddTetris
 
         public bool CanMoveRight()
         {
-            return Position.X < Width - CurrentBlock.CurrentWidth;
+            Vector2 newPosition = new Vector2(Position.X + 1, Position.Y);
+            return Tester.CanPlaceCurrentBlockAt(newPosition);
         }
 
         public void MoveBlockRight()
@@ -79,7 +85,11 @@ namespace TddTetris
 
         public bool CanAdvance()
         {
-            return CurrentBlock != null && Position.Y + CurrentBlock.CurrentHeight < Height;
+            if (CurrentBlock != null) {
+                Vector2 newPosition = new Vector2(Position.X, Position.Y + 1);
+                return Tester.CanPlaceCurrentBlockAt(newPosition);
+            }
+            return false;
         }
 
         public void FixBlock()

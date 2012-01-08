@@ -55,6 +55,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockLocationTesterTests.cs" />
     <Compile Include="Fakes\BlockFactoryStub.cs" />
     <Compile Include="Fakes\BlockStub.cs" />
     <Compile Include="BlockTests.cs" />

@@ -112,10 +112,12 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="BlockFactory.cs" />
+    <Compile Include="BlockLocationTester.cs" />
     <Compile Include="Interfaces\IBlock.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="GameMechanics.cs" />
     <Compile Include="Interfaces\IBlockFactory.cs" />
+    <Compile Include="Interfaces\IBlockLocationTester.cs" />
     <Compile Include="Interfaces\IField.cs" />
     <Compile Include="InputQueue.cs" />
     <Compile Include="Interfaces\IRotationCalculator.cs" />
